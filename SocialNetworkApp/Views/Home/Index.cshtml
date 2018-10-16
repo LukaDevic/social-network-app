@@ -5,10 +5,27 @@
 }
 
 
-<ul>
+<ul class="concerts">
     @foreach (var concert in Model)
     {
-        <li>@concert.DateTime - @concert.Artist.Name</li>
+    <li>
+        <div class="date">
+            <div class="month">
+                @concert.DateTime.ToString("MMM")
+            </div>
+            <div class="day">
+                @concert.DateTime.ToString("d ")
+            </div>
+        </div>
+        <div class="details">
+            <span class="artist">
+                @concert.Artist.Name
+            </span>
+            <span class="genre">
+                @concert.Genre.Name
+            </span>
+        </div>
+    </li>
     }
 
 </ul>

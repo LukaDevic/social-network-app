@@ -19,6 +19,7 @@ namespace SocialNetworkApp.Controllers
         {
             var upcomingConcerts = _context.Concerts
                 .Include(c => c.Artist)
+                .Include(g => g.Genre)
                 .Where(c => c.DateTime > DateTime.Now);
 
             return View(upcomingConcerts);

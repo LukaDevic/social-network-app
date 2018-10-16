@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 90px;
     padding-bottom: 20px;
 }
 
@@ -88,3 +88,55 @@ body {
     padding: 7px 20px;
     border-radius: 9px;
 }
+
+
+/*Page-level styles*/
+
+.concerts {
+    list-style: none;
+}
+
+.concerts > li {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.concerts > li .date {
+    background: red;
+    color: white;
+    text-align: center;
+    width: 60px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.concerts > li .date .month {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px 6px;
+}
+
+.concerts > li .date .day {
+    background: #f7f7f7;
+    color: #333;
+    font-size: 20px;
+    padding: 6px 12px;
+
+    }
+
+ .concerts > li .details {
+        position: absolute;
+        top: 0;
+        left: 70px;
+}
+
+ .concerts > li .details .artist {
+    font-weight: bold;
+    display: block;
+    }
+
+    .concerts > li .details .genre {
+       font-size: 15px;
+
+    }
