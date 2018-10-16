@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using SocialNetworkApp.Models;
 using SocialNetworkApp.ViewModels;
-using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -31,11 +30,17 @@ namespace SocialNetworkApp.Controllers
         [HttpPost]
         public ActionResult Create(ConcertFormViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Genres = _context.Genres.ToList();
+                return View("Create", viewModel);
+            }
+
 
             var concert = new Concert
             {
                 ArtistId = User.Identity.GetUserId(),
-                DateTime = viewModel.DateTime,
+                DateTime = viewModel.GetDateTime(),
                 GenreId = viewModel.Genre,
                 Venue = viewModel.Venue
             };
