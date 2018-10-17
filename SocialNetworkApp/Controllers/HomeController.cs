@@ -1,4 +1,5 @@
 ﻿using SocialNetworkApp.Models;
+using SocialNetworkApp.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -22,7 +23,14 @@ namespace SocialNetworkApp.Controllers
                 .Include(g => g.Genre)
                 .Where(c => c.DateTime > DateTime.Now);
 
-            return View(upcomingConcerts);
+            var viewModel = new ConcertsViewModel
+            {
+                UpcomingConcerts = upcomingConcerts,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Upcoming Concerts"
+
+            };
+            return View("Concerts", viewModel);
         }
 
         public ActionResult About()
@@ -39,4 +47,6 @@ namespace SocialNetworkApp.Controllers
             return View();
         }
     }
+
+
 }

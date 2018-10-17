@@ -1,12 +1,14 @@
-﻿@model IEnumerable<SocialNetworkApp.Models.Concert>
+﻿@model SocialNetworkApp.ViewModels.ConcertsViewModel
 
 @{
     ViewBag.Title = "Home Page";
 }
 
+<h1>@Model.Heading</h1>
 
-<ul class="concerts">
-    @foreach (var concert in Model)
+
+<ul class="concerts voffset4">
+    @foreach (var concert in Model.UpcomingConcerts) 
     {
     <li>
         <div class="date">
@@ -19,12 +21,20 @@
         </div>
         <div class="details">
             <span class="artist">
-                @concert.Artist.Name <button data-user-id="@concert.ArtistId" class="btn btn-link btn-sm js-toggle-follow">Follow</button>
+                @concert.Artist.Name 
+                @if (Model.ShowActions)
+                {
+                    <button data - user - id = "@concert.ArtistId" class="btn btn-link btn-sm js-toggle-follow">Follow</button>
+        }
+
             </span>
             <span class="genre">
                 @concert.Genre.Name
             </span>
+            @if(Model.ShowActions)
+            {
             <button data-concert-id="@concert.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
+            }            
         </div>     
     </li>
     }
