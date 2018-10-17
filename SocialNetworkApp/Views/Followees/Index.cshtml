@@ -1,0 +1,14 @@
+﻿@model IEnumerable<SocialNetworkApp.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Who I Follow</h2>
+
+@foreach (var artist in Model)
+{
+    <div>
+        <p>@artist.Name</p>
+    </div>
+}

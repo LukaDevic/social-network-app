@@ -36,6 +36,7 @@ namespace SocialNetworkApp.Controllers
             return View("Concerts", viewModel);
         }
 
+
         [Authorize]
         public ActionResult Create()
         {
