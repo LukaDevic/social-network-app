@@ -24,8 +24,30 @@
             <span class="genre">
                 @concert.Genre.Name
             </span>
+            <button data-concert-id="@concert.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
         </div>
     </li>
     }
 
 </ul>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $(".js-toggle-attendance").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/attendances", { concertId: button.attr("data-concert-id") })
+                    .done(function () {
+                        button
+                            .removeClass("btn-default")
+                            .addClass("btn-info")
+                            .text("Going");
+                    })
+                    .fail(function () {
+                        alert("something failed!");
+                    });
+            });
+        });
+    </script>
+    }
