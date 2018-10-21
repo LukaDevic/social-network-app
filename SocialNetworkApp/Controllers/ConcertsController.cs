@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using SocialNetworkApp.Models;
 using SocialNetworkApp.ViewModels;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -14,6 +15,18 @@ namespace SocialNetworkApp.Controllers
         public ConcertsController()
         {
             _context = new ApplicationDbContext();
+        }
+
+        [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var concerts = _context.Concerts
+                .Where(c => c.ArtistId == userId && c.DateTime > DateTime.Now)
+                .Include(c => c.Genre)
+                .ToList();
+
+            return View(concerts);
         }
 
         public ActionResult Attending()
@@ -71,7 +84,7 @@ namespace SocialNetworkApp.Controllers
             _context.Concerts.Add(concert);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Mine", "Home");
         }
     }
 }

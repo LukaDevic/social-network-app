@@ -335,6 +335,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Concerts\Create.cshtml" />
     <Content Include="Views\Followees\Index.cshtml" />
+    <Content Include="Views\Concerts\Mine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
