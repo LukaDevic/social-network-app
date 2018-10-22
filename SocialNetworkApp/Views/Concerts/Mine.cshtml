@@ -27,10 +27,60 @@
                 </span>
                 <div class="actions">
                     <a href="@Url.Action("Edit","Concerts", new { id = concert.Id })">
-                    Edit</a>
+                    Edit
+                    </a> |
+                    <a href="#" class="js-cancel-concert" data-concert-id="@concert.Id">
+                    Cancel
+                    </a>
                 </div>
             </div>
         </li>
     }
 
 </ul>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            $(".js-cancel-concert").click(function (e) {
+                var link = $(e.target);
+
+                bootbox.dialog({
+                    message: "Are you sure you want to cancel this concert?",
+                    title: "Confirm",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: 'btn-default',
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: 'btn-danger',
+                            callback: function () {
+                                $.ajax({
+                                    url: "/api/concerts/" + link.attr("data-concert-id"),
+                                    method: "DELETE"
+                                })
+                                    .done(function () {
+                                        link.parents("li").fadeOut(function () {
+                                            $(this).remove();
+                                        });
+                                    })
+                                    .fail(function () {
+                                        alert("Something failed!")
+                                    });
+                            }
+                        }
+                    }
+
+                });
+            });
+              
+        });
+    </script>
+    }

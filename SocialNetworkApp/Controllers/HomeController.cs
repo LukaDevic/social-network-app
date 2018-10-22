@@ -21,7 +21,7 @@ namespace SocialNetworkApp.Controllers
             var upcomingConcerts = _context.Concerts
                 .Include(c => c.Artist)
                 .Include(g => g.Genre)
-                .Where(c => c.DateTime > DateTime.Now);
+                .Where(c => c.DateTime > DateTime.Now && !c.IsCanceled);
 
             var viewModel = new ConcertsViewModel
             {

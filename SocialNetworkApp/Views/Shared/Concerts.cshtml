@@ -22,6 +22,12 @@
         <div class="details">
             <span class="artist">
                 @concert.Artist.Name 
+
+                @if(concert.IsCanceled)
+                {
+                    <span class="label label-warning">Canceled</span>
+                }
+
                 @if (Model.ShowActions)
                 {
                     <button data-user-id = "@concert.ArtistId" class="btn btn-link btn-sm js-toggle-follow">Follow</button>
@@ -31,7 +37,7 @@
             <span class="genre">
                 @concert.Genre.Name
             </span>
-            @if(Model.ShowActions)
+            @if(Model.ShowActions && !concert.IsCanceled)
             {
             <button data-concert-id="@concert.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
             }            

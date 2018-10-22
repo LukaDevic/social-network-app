@@ -205,6 +205,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\ConcertsController.cs" />
     <Compile Include="Controllers\Api\FollowingsController.cs" />
     <Compile Include="Controllers\FolloweesController.cs" />
     <Compile Include="Dtos\AttendanceDto.cs" />
@@ -247,6 +248,10 @@
     <Compile Include="Migrations\201810171357502_AddingFollowingsToModel.cs" />
     <Compile Include="Migrations\201810171357502_AddingFollowingsToModel.Designer.cs">
       <DependentUpon>201810171357502_AddingFollowingsToModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810220619431_AddIsCanceledToConcerts.cs" />
+    <Compile Include="Migrations\201810220619431_AddIsCanceledToConcerts.Designer.cs">
+      <DependentUpon>201810220619431_AddIsCanceledToConcerts.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -378,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810171357502_AddingFollowingsToModel.resx">
       <DependentUpon>201810171357502_AddingFollowingsToModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810220619431_AddIsCanceledToConcerts.resx">
+      <DependentUpon>201810220619431_AddIsCanceledToConcerts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
