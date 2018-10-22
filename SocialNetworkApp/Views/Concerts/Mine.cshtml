@@ -25,7 +25,10 @@
                 <span class="genre">
                     @concert.Genre.Name
                 </span>
-                
+                <div class="actions">
+                    <a href="@Url.Action("Edit","Concerts", new { id = concert.Id })">
+                    Edit</a>
+                </div>
             </div>
         </li>
     }
