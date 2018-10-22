@@ -253,14 +253,21 @@
     <Compile Include="Migrations\201810220619431_AddIsCanceledToConcerts.Designer.cs">
       <DependentUpon>201810220619431_AddIsCanceledToConcerts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810221137042_AddNotification.cs" />
+    <Compile Include="Migrations\201810221137042_AddNotification.Designer.cs">
+      <DependentUpon>201810221137042_AddNotification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\Concert.cs" />
     <Compile Include="Models\Following.cs" />
     <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\UserNotification.cs" />
     <Compile Include="ViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\ConfigureTwoFactorViewModel.cs" />
@@ -386,6 +393,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810220619431_AddIsCanceledToConcerts.resx">
       <DependentUpon>201810220619431_AddIsCanceledToConcerts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810221137042_AddNotification.resx">
+      <DependentUpon>201810221137042_AddNotification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
