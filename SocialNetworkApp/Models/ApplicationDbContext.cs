@@ -26,7 +26,7 @@ namespace SocialNetworkApp.Models
         {
             modelBuilder.Entity<Attendance>()
                 .HasRequired(a => a.Concert)
-                .WithMany()
+                .WithMany(c => c.Attendances)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ApplicationUser>()
@@ -39,10 +39,9 @@ namespace SocialNetworkApp.Models
                 .WithRequired(f => f.Follower)
                 .WillCascadeOnDelete(false);
 
-
             modelBuilder.Entity<UserNotification>()
                 .HasRequired(n => n.User)
-                .WithMany()
+                .WithMany(u => u.UserNotifications)
                 .WillCascadeOnDelete(false);
 
 

@@ -2,7 +2,7 @@
 {
     public enum NotificationType
     {
-        ConcerCanceled = 1,
+        ConcertCanceled = 1,
         ConcertUpdated = 2,
         ConcertCreated = 3
     }

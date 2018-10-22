@@ -125,11 +125,12 @@ namespace SocialNetworkApp.Controllers
             }
 
             var userId = User.Identity.GetUserId();
-            var concert = _context.Concerts.Single(c => c.Id == viewModel.Id && c.ArtistId == userId);
+            var concert = _context.Concerts
+                .Include(c => c.Attendances.Select(a => a.Attendee))
+                .Single(c => c.Id == viewModel.Id && c.ArtistId == userId);
 
-            concert.Venue = viewModel.Venue;
-            concert.DateTime = viewModel.GetDateTime();
-            concert.GenreId = viewModel.Genre;
+
+            concert.Modify(viewModel.GetDateTime(), viewModel.Venue, viewModel.Genre);
 
             _context.SaveChanges();
 

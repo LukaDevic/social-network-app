@@ -262,7 +262,7 @@
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Attendance.cs" />
-    <Compile Include="Models\Class1.cs" />
+    <Compile Include="Models\NotificationType.cs" />
     <Compile Include="Models\Concert.cs" />
     <Compile Include="Models\Following.cs" />
     <Compile Include="Models\Genre.cs" />
