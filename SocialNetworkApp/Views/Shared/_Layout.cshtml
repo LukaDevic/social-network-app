@@ -36,15 +36,14 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
     <script type="text/x-template" id="notifications-template">
-        <ul>
+        <ul class="notifications">
             <%
                 _.each(notifications, function(notification) {
                     if(notification.type == 1) {  %>
-                      <li><%= notification.concert.artist.name %> has canceled the Concert at <%= notification.concert.venue %> at <%= notification.concert.dateTime %></li>
+                      <li><span class="highlight"><%= notification.concert.artist.name %></span> has canceled the Concert at <%= notification.concert.venue %> at <%= moment(notification.concert.dateTime).format("D MMM HH:mm") %></li>
                     <% }
 
                    else if(notification.type == 2) {
@@ -60,12 +59,12 @@
 
                        if(notification.originalDateTime != notification.concert.dateTime) {
                           changes.push('date/time');
-                          originalValues.push(notification.originalDateTime);
-                          newValues.push(notification.concert.dateTime);
+                          originalValues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
+                          newValues.push(moment(notification.concert.dateTime).format("D MMM HH:mm"));
                        }
 
                 %> 
-                 <li><%= notification.concert.artist.name %> has changed the <%= changes.join(' and ') %> of the concert from <%= originalValues.join('/')%> to <%=newValues.join('/') %> </li>
+                 <li><span class="highlight"><%= notification.concert.artist.name %></span> has changed the <%= changes.join(' and ') %> of the concert from <%= originalValues.join('/')%> to <%=newValues.join('/') %> </li>
 
                 <%
                 } 
@@ -91,7 +90,8 @@
                     var compiled = _.template($("#notifications-template").html());
                  return compiled({ notifications: notifications});
                 },
-                placement: "bottom"
+                placement: "bottom",
+                template: '<div class="popover popover-notifications" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
             });
         });       
     });
