@@ -12,8 +12,6 @@ namespace SocialNetworkApp.Models
 
         public bool IsCanceled { get; private set; }
 
-        public bool IsUpdated { get; set; }
-
         public ApplicationUser Artist { get; set; }
 
         [Required]
