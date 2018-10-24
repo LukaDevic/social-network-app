@@ -53,6 +53,12 @@ namespace SocialNetworkApp.Controllers
             return View("Concerts", viewModel);
         }
 
+        [HttpPost]
+        public ActionResult Search(ConcertsViewModel viewModel)
+        {
+            return RedirectToAction("Index", "Home", new { query = viewModel.SearchTerm });
+        }
+
         [Authorize]
         public ActionResult Create()
         {

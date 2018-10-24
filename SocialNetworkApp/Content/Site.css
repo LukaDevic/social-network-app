@@ -165,3 +165,8 @@ body {
 .popover-notifications ul.notifications .highlight {
   font-weight: bold;
 }
+#searchConcerts {
+  width: 300px;
+  box-shadow: none;
+  transition: none;
+}
