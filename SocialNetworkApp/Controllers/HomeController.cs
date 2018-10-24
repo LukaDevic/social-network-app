@@ -1,4 +1,5 @@
-﻿using SocialNetworkApp.Models;
+﻿using Microsoft.AspNet.Identity;
+using SocialNetworkApp.Models;
 using SocialNetworkApp.ViewModels;
 using System;
 using System.Data.Entity;
@@ -32,12 +33,19 @@ namespace SocialNetworkApp.Controllers
                              c.Venue.Contains(query));
             }
 
+            var userId = User.Identity.GetUserId();
+            var attendances = _context.Attendances
+                .Where(a => a.AttendeeId == userId && a.Concert.DateTime > DateTime.Now)
+                .ToList()
+                .ToLookup(a => a.ConcertId);
+
             var viewModel = new ConcertsViewModel
             {
                 UpcomingConcerts = upcomingConcerts,
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Upcoming Concerts",
-                SearchTerm = query
+                SearchTerm = query,
+                Attendances = attendances
 
             };
             return View("Concerts", viewModel);

@@ -17,6 +17,38 @@ namespace SocialNetworkApp.Controllers
             _context = new ApplicationDbContext();
         }
 
+
+        public ActionResult Details(int id)
+        {
+            var concert = _context.Concerts
+                .Include(c => c.Artist)
+                .Include(c => c.Genre)
+                .SingleOrDefault(c => c.Id == id);
+
+            if (concert == null)
+                return HttpNotFound();
+
+            var viewModel = new ConcertDetailsViewModel
+            {
+                Concert = concert
+            };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+
+                viewModel.IsAttending = _context.Attendances
+                    .Any(a => a.AttendeeId == userId && a.ConcertId == concert.Id);
+
+                viewModel.IsFollowing = _context.Followings
+                    .Any(f => f.FollowerId == userId && f.FolloweeId == concert.ArtistId);
+            }
+
+            return View(viewModel);
+        }
+
+
+
         [Authorize]
         public ActionResult Mine()
         {
@@ -43,11 +75,17 @@ namespace SocialNetworkApp.Controllers
                 .Include(c => c.Genre)
                 .ToList();
 
+            var attendances = _context.Attendances
+                .Where(a => a.AttendeeId == userId && a.Concert.DateTime > DateTime.Now)
+                .ToList()
+                .ToLookup(a => a.ConcertId);
+
             var viewModel = new ConcertsViewModel()
             {
                 UpcomingConcerts = concerts,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Concersts I'm attending"
+                Heading = "Concersts I'm attending",
+                Attendances = attendances
             };
 
             return View("Concerts", viewModel);

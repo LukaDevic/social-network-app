@@ -283,6 +283,7 @@
     <Compile Include="Models\UserNotification.cs" />
     <Compile Include="ViewModels\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\ConcertDetailsViewModel.cs" />
     <Compile Include="ViewModels\ConfigureTwoFactorViewModel.cs" />
     <Compile Include="ViewModels\FactorViewModel.cs" />
     <Compile Include="ViewModels\ConcertsViewModel.cs" />
@@ -374,6 +375,7 @@
     <Content Include="Views\Concerts\ConcertForm.cshtml" />
     <Content Include="Views\Followees\Index.cshtml" />
     <Content Include="Views\Concerts\Mine.cshtml" />
+    <Content Include="Views\Concerts\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
