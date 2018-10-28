@@ -8,59 +8,53 @@
 
 @using (Html.BeginForm("Search", "Concerts"))
 {
-    <div id="searchConcerts" class="form-group">
-        <div class="input-group">
-            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by artist, genre, location..." }) 
+    <div class="form-group">
+        <div id="searchConcerts" class="input-group">
+            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by artist, genre, location..." })
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-search"></i>
             </span>
         </div>
-        
+
     </div>
 }
-<ul class="concerts voffset4">
+<ul id="concerts" class="concerts voffset4">
     @foreach (var concert in Model.UpcomingConcerts)
     {
-    <li>
-        <div class="date">
-            <div class="month">
-                @concert.DateTime.ToString("MMM")
+        <li>
+            <div class="date">
+                <div class="month">
+                    @concert.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @concert.DateTime.ToString("d ")
+                </div>
             </div>
-            <div class="day">
-                @concert.DateTime.ToString("d ")
+            <div class="details">
+                <span class="artist">
+                    @Html.ActionLink(concert.Artist.Name, "Details", "Concerts", new { id = concert.Id }, null)
+
+                    @if (concert.IsCanceled)
+                    {
+                        <span class="label label-warning">Canceled</span>
+                    }
+
+                </span>
+                <span class="genre">
+                    @concert.Genre.Name
+                </span>
+                @if (Model.ShowActions && !concert.IsCanceled)
+                {
+                <button data-concert-id="@concert.Id"
+                        class="btn
+                    @(Model.Attendances.Contains(concert.Id) ? "btn-info" : "btn-default")
+                    btn-sm js-toggle-attendance">
+                    @(Model.Attendances.Contains(concert.Id) ? "Going" : "Going?")
+                </button>
+                }
             </div>
-        </div>
-        <div class="details">
-            <span class="artist">
-                @Html.ActionLink(concert.Artist.Name , "Details", "Concerts", new { id = concert.Id}, null )
-
-                @if (concert.IsCanceled)
-                {
-                    <span class="label label-warning">Canceled</span>
-                }
-
-                @if (Model.ShowActions)
-                {
-                    <button data-user-id = "@concert.ArtistId" class="btn btn-link btn-sm js-toggle-follow">Follow</button>
-                }
-
-            </span>
-            <span class="genre">
-                @concert.Genre.Name
-            </span>
-            @if (Model.ShowActions && !concert.IsCanceled)
-            {
-            <button 
-                    data-concert-id="@concert.Id" 
-                    class="btn
-                    @(Model.Attendances.Contains(concert.Id) ? "btn-info" : "btn-default") 
-                    btn-sm pull-right js-toggle-attendance">
-                    Going?
-            </button>
-            }            
-        </div>     
-    </li>
-        }
+        </li>
+    }
 
 </ul>
 
@@ -68,47 +62,7 @@
 {
     <script>
         $(document).ready(function() {
-            $(".js-toggle-attendance").click(function (e) {
-                var button = $(e.target);
-                if (button.hasClass("btn-default")) {
-                    $.post("/api/attendances", { concertId: button.attr("data-concert-id") })
-                        .done(function () {
-                            button
-                                .removeClass("btn-default")
-                                .addClass("btn-info")
-                                .text("Going");
-                        })
-                        .fail(function () {
-                            alert("something failed!");
-                        });
-                } else {
-                    $.ajax({
-                        url: "/api/attendances/" + button.attr("data-concert-id"),
-                        method: "DELETE"
-                    })
-                        .done(function () {
-                            button
-                                .removeClass("btn-info")
-                                .addClass("btn-default")
-                                .text("Going?");
-                        })
-                        .fail(function () {
-                            alert("Something failed!")
-                        });
-                }
-                
-            });
-
-            $(".js-toggle-follow").click(function (e) {
-                var button = $(e.target);
-                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
-                    .done(function () {
-                        button.text("Following");
-                    })
-                    .fail(function () {
-                        alert("something failed!");
-                    });
-            });
+            ConcertsController.init("#concerts");
         });
     </script>
-    }
+}

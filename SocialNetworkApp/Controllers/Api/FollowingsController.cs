@@ -19,15 +19,14 @@ namespace SocialNetworkApp.Controllers.Api
         [HttpPost]
         public IHttpActionResult Follow(FollowingDto dto)
         {
-            var followerId = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId();
 
-            if (_context.Followings.Any(f => f.FollowerId == followerId && f.FolloweeId == dto.FolloweeId))
-                return BadRequest("You allready follow this artist");
-
+            if (_context.Followings.Any(f => f.FollowerId == userId && f.FolloweeId == dto.FolloweeId))
+                return BadRequest("Following already exists.");
 
             var following = new Following
             {
-                FollowerId = followerId,
+                FollowerId = userId,
                 FolloweeId = dto.FolloweeId
             };
 
@@ -35,6 +34,24 @@ namespace SocialNetworkApp.Controllers.Api
             _context.SaveChanges();
 
             return Ok();
+        }
+
+
+        [HttpDelete]
+        public IHttpActionResult Unfollow(string id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var following = _context.Followings
+                .SingleOrDefault(f => f.FollowerId == userId && f.FolloweeId == id);
+
+            if (following == null)
+                return NotFound();
+
+            _context.Followings.Remove(following);
+            _context.SaveChanges();
+
+            return Ok(id);
         }
     }
 }

@@ -139,7 +139,9 @@ body {
   display: block;
 }
 .concerts > li .details .genre {
-  font-size: 15px;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
 }
 .concerts > li .actions {
   font-size: 15px;

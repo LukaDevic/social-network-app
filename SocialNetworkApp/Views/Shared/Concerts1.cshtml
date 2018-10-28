@@ -1,0 +1,85 @@
+﻿@model SocialNetworkApp.ViewModels.ConcertsViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>@Model.Heading</h1>
+
+@using (Html.BeginForm("Search", "Concerts"))
+{
+    <div id="searchConcerts" class="form-group">
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by artist, genre, location..." }) 
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-search"></i>
+            </span>
+        </div>
+        
+    </div>
+}
+<ul id="concerts" class="concerts voffset4">
+    @foreach (var concert in Model.UpcomingConcerts)
+    {
+    <li>
+        <div class="date">
+            <div class="month">
+                @concert.DateTime.ToString("MMM")
+            </div>
+            <div class="day">
+                @concert.DateTime.ToString("d ")
+            </div>
+        </div>
+        <div class="details">
+            <span class="artist">
+                @Html.ActionLink(concert.Artist.Name , "Details", "Concerts", new { id = concert.Id}, null )
+
+                @if (concert.IsCanceled)
+                {
+                    <span class="label label-warning">Canceled</span>
+                }
+
+                @if (Model.ShowActions)
+                {
+                    <button data-user-id = "@concert.ArtistId" class="btn btn-link btn-sm js-toggle-follow">Follow</button>
+                }
+
+            </span>
+            <span class="genre">
+                @concert.Genre.Name
+            </span>
+            @if (Model.ShowActions && !concert.IsCanceled)
+            {
+            <button 
+                    data-concert-id="@concert.Id" 
+                    class="btn
+                    @(Model.Attendances.Contains(concert.Id) ? "btn-info" : "btn-default") 
+                    btn-sm pull-right js-toggle-attendance">
+                    Going?
+            </button>
+            }            
+        </div>     
+    </li>
+        }
+
+</ul>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+           ConcertsController.init("#concerts");
+
+            $(".js-toggle-follow").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                    .done(function () {
+                        button.text("Following");
+                    })
+                    .fail(function () {
+                        alert("something failed!");
+                    });
+            });
+        });
+    </script>
+    }

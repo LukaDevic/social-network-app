@@ -318,6 +318,11 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <None Include="Content\Site.less" />
+    <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\concertsController.js" />
+    <Content Include="Scripts\app\controllers\concertDetailsController.js" />
+    <Content Include="Scripts\app\services\attendanceService.js" />
+    <Content Include="Scripts\app\services\followingService.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -351,7 +356,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Shared\Concerts.cshtml" />
+    <Content Include="Views\Shared\Concerts1.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -376,6 +381,7 @@
     <Content Include="Views\Followees\Index.cshtml" />
     <Content Include="Views\Concerts\Mine.cshtml" />
     <Content Include="Views\Concerts\Details.cshtml" />
+    <Content Include="Views\Shared\Concerts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
