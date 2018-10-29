@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SocialNetworkApp.Repositories
 {
-    public class FollowingRepository
+    public class FollowingRepository : IFollowingRepository
     {
         private readonly ApplicationDbContext _context;
 

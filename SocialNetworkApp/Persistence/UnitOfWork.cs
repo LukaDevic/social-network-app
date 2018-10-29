@@ -3,17 +3,17 @@ using SocialNetworkApp.Repositories;
 
 namespace SocialNetworkApp.Persistence
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
 
-        public ConcertRepository Concerts { get; private set; }
+        public IConcertRepository Concerts { get; private set; }
 
-        public AttendanceRepository Attendances { get; private set; }
+        public IAttendanceRepository Attendances { get; private set; }
 
-        public FollowingRepository Followings { get; set; }
+        public IFollowingRepository Followings { get; set; }
 
-        public GenreRepository Genres { get; set; }
+        public IGenreRepository Genres { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {

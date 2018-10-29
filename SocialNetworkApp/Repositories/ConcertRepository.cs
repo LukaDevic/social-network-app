@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SocialNetworkApp.Repositories
 {
-    public class ConcertRepository
+    public class ConcertRepository : IConcertRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -51,12 +51,7 @@ namespace SocialNetworkApp.Repositories
                 .ToList();
         }
 
-        public Concert GetSingleConcertFromAnArtist(int id, string userId)
-        {
-            return _context.Concerts.Single(c => c.Id == id && c.ArtistId == userId);
-        }
-
-        internal void Add(Concert concert)
+        public void Add(Concert concert)
         {
             _context.Concerts.Add(concert);
         }

@@ -9,13 +9,11 @@ namespace SocialNetworkApp.Controllers
 {
     public class ConcertsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ConcertsController()
+        public ConcertsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
-            _unitOfWork = new UnitOfWork(_context);
+            _unitOfWork = unitOfWork;
         }
 
         public ActionResult Details(int id)
@@ -104,7 +102,7 @@ namespace SocialNetworkApp.Controllers
             {
                 Heading = "Edit a Concert",
                 Id = concert.Id,
-                Genres = _context.Genres.ToList(),
+                Genres = _unitOfWork.Genres.GetGenres(),
                 Date = concert.DateTime.ToString("d MMM yyyy"),
                 Time = concert.DateTime.ToString("HH:mm"),
                 Genre = concert.GenreId,
