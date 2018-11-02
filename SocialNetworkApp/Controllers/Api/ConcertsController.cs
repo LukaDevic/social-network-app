@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
-using SocialNetworkApp.Models;
-using System.Data.Entity;
-using System.Linq;
+using SocialNetworkApp.Core;
 using System.Web.Http;
 
 namespace SocialNetworkApp.Controllers.Api
@@ -9,27 +7,29 @@ namespace SocialNetworkApp.Controllers.Api
     [Authorize]
     public class ConcertsController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ConcertsController()
+        public ConcertsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         [HttpDelete]
         public IHttpActionResult Cancel(int id)
         {
             var userId = User.Identity.GetUserId();
-            var concert = _context.Concerts
-                .Include(c => c.Attendances.Select(a => a.Attendee))
-                .Single(c => c.Id == id && c.ArtistId == userId);
+            var concert = _unitOfWork.Concerts.GetConcertWithAttendees(id);
 
+            //TODO: Bug - if concert == null
             if (concert.IsCanceled)
                 return NotFound();
 
+            if (concert.ArtistId != userId)
+                return Unauthorized();
+
             concert.Cancel();
 
-            _context.SaveChanges();
+            _unitOfWork.Complete();
 
             return Ok();
         }

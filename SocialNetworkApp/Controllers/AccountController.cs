@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using SocialNetworkApp.Models;
-using SocialNetworkApp.ViewModels;
+using SocialNetworkApp.Core.Models;
+using SocialNetworkApp.Core.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using SocialNetworkApp.Models;
-using SocialNetworkApp.Persistence;
-using SocialNetworkApp.ViewModels;
+using SocialNetworkApp.Core;
+using SocialNetworkApp.Core.Models;
+using SocialNetworkApp.Core.ViewModels;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -138,7 +138,6 @@ namespace SocialNetworkApp.Controllers
 
             return RedirectToAction("Mine", "Concerts");
         }
-
 
 
         [Authorize]

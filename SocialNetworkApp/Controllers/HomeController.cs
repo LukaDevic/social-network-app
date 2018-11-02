@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
-using SocialNetworkApp.Models;
-using SocialNetworkApp.Repositories;
-using SocialNetworkApp.ViewModels;
-using System;
-using System.Data.Entity;
+using SocialNetworkApp.Core;
+using SocialNetworkApp.Core.ViewModels;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -11,33 +8,19 @@ namespace SocialNetworkApp.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext _context;
-        private AttendanceRepository _attendanceRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
-            _attendanceRepository = new AttendanceRepository(_context);
+            _unitOfWork = unitOfWork;
         }
 
         public ActionResult Index(string query = null)
         {
-            var upcomingConcerts = _context.Concerts
-                .Include(c => c.Artist)
-                .Include(g => g.Genre)
-                .Where(c => c.DateTime > DateTime.Now && !c.IsCanceled);
-
-            if (!String.IsNullOrWhiteSpace(query))
-            {
-                upcomingConcerts = upcomingConcerts
-                    .Where(c =>
-                             c.Artist.Name.Contains(query) ||
-                             c.Genre.Name.Contains(query) ||
-                             c.Venue.Contains(query));
-            }
+            var upcomingConcerts = _unitOfWork.Concerts.GetUpcomingConcerts(query);
 
             var userId = User.Identity.GetUserId();
-            var attendances = _attendanceRepository.GetFutureAttendances(userId)
+            var attendances = _unitOfWork.Attendances.GetFutureAttendances(userId)
                 .ToLookup(a => a.ConcertId);
 
             var viewModel = new ConcertsViewModel

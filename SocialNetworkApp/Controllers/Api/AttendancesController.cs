@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using SocialNetworkApp.Dtos;
-using SocialNetworkApp.Models;
-using System.Linq;
+using SocialNetworkApp.Core;
+using SocialNetworkApp.Core.Dtos;
+using SocialNetworkApp.Core.Models;
 using System.Web.Http;
 
 namespace SocialNetworkApp.Controllers.Api
@@ -10,11 +10,11 @@ namespace SocialNetworkApp.Controllers.Api
     [Authorize]
     public class AttendancesController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AttendancesController()
+        public AttendancesController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
@@ -22,18 +22,18 @@ namespace SocialNetworkApp.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-
-            if (_context.Attendances.Any(a => a.AttendeeId == userId && a.ConcertId == dto.ConcertId))
+            var attendance = _unitOfWork.Attendances.GetAttendance(dto.ConcertId, userId);
+            if (attendance != null)
                 return BadRequest("The attendance alrady exists.");
 
 
-            var attendance = new Attendance
+            attendance = new Attendance
             {
                 ConcertId = dto.ConcertId,
                 AttendeeId = userId
             };
-            _context.Attendances.Add(attendance);
-            _context.SaveChanges();
+            _unitOfWork.Attendances.Add(attendance);
+            _unitOfWork.Complete();
 
             return Ok();
         }
@@ -43,13 +43,13 @@ namespace SocialNetworkApp.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-            var attendance = _context.Attendances.SingleOrDefault(a => a.ConcertId == id && a.AttendeeId == userId);
+            var attendance = _unitOfWork.Attendances.GetAttendance(id, userId);
 
             if (attendance == null)
                 return NotFound();
 
-            _context.Attendances.Remove(attendance);
-            _context.SaveChanges();
+            _unitOfWork.Attendances.Remove(attendance);
+            _unitOfWork.Complete();
 
             return Ok(id);
         }

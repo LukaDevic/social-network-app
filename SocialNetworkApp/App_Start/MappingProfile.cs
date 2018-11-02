@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SocialNetworkApp.Dtos;
-using SocialNetworkApp.Models;
+using SocialNetworkApp.Core.Dtos;
+using SocialNetworkApp.Core.Models;
 
 namespace SocialNetworkApp.App_Start
 {
